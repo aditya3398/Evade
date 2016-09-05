@@ -10,7 +10,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import java.lang.InterruptedException;
@@ -18,6 +17,7 @@ import java.lang.InterruptedException;
 public class Game extends Activity implements View.OnTouchListener {
     int x=0;
     int yDecrement = 50;
+    long newEnemyTime=3000;
     ImageView socguy;
     View view;
     long time;
@@ -38,19 +38,18 @@ public class Game extends Activity implements View.OnTouchListener {
             displayMetrics=new DisplayMetrics();
 
         }
-        LinearLayout linearLayout = (LinearLayout)findViewById(R.id.gamerelativelayout);
-
+        RelativeLayout linearLayout = (RelativeLayout)findViewById(R.id.gamerelativelayout);
         long currentTime=System.currentTimeMillis();
-        time=System.currentTimeMillis();
-        listOImages.add(new ImageView(this));
-        listOImages.get(listOImages.size()-1).setImageResource(R.drawable.piano);
-        //listOImages.get(listOImages.size()-1).setX((int) (Math.random() * displayMetrics.widthPixels));
-        //listOImages.get(listOImages.size()-1).setY(30);
-        System.out.println(linearLayout);
-        listOImages.get(listOImages.size()-1).setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
-        linearLayout.addView(listOImages.get(listOImages.size() - 1));
-        listOImages.get(listOImages.size()-1).setVisibility(View.VISIBLE);
-
+        if (currentTime-time==3000) {
+            time = System.currentTimeMillis();
+            listOImages.add(new ImageView(this));
+            listOImages.get(listOImages.size() - 1).setImageResource(R.drawable.piano);
+            listOImages.get(listOImages.size() - 1).setLayoutParams(new RelativeLayout.LayoutParams(100, 100));
+            listOImages.get(listOImages.size() - 1).setX((int) (Math.random() * displayMetrics.widthPixels));
+            listOImages.get(listOImages.size() - 1).setY(30);
+            linearLayout.addView(listOImages.get(listOImages.size() - 1), (int)(Math.random()*displayMetrics.widthPixels), 200);
+            listOImages.get(listOImages.size() - 1).setVisibility(View.VISIBLE);
+        }
 
 
 
@@ -64,8 +63,7 @@ public class Game extends Activity implements View.OnTouchListener {
             }
         }
         view.setOnTouchListener(this);
-        //loop();
-
+        loop();
 
     }
 
@@ -86,7 +84,7 @@ public class Game extends Activity implements View.OnTouchListener {
 
     protected void loop(){
         try {
-            Thread.sleep(30);
+            Thread.sleep(300);
         }
         catch(InterruptedException e){
             System.out.println(e);
