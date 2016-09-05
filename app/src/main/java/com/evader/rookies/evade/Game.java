@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
+import android.os.Looper;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
@@ -24,48 +25,47 @@ public class Game extends Activity implements View.OnTouchListener {
     boolean firstTimeAround=true;
     DisplayMetrics displayMetrics;
     ArrayList <ImageView> listOImages = new ArrayList<ImageView>();
+    RelativeLayout linearLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_game);
         super.onCreate(savedInstanceState);
-
-        if (firstTimeAround==true){
-            socguy = (ImageView)findViewById(R.id.imageView);
+        if (firstTimeAround == true) {
+            socguy = (ImageView) findViewById(R.id.imageView);
             view = findViewById(R.id.clickview);
-            time=System.currentTimeMillis();
-            firstTimeAround=false;
-            displayMetrics=new DisplayMetrics();
+            time = System.currentTimeMillis();
+            firstTimeAround = false;
+            displayMetrics = new DisplayMetrics();
+            linearLayout= (RelativeLayout) findViewById(R.id.gamerelativelayout);
 
         }
-        RelativeLayout linearLayout = (RelativeLayout)findViewById(R.id.gamerelativelayout);
-        long currentTime=System.currentTimeMillis();
-        if (currentTime-time==3000) {
+
+        long currentTime = System.currentTimeMillis();
+        //if (currentTime - time == newEnemyTime) {
             time = System.currentTimeMillis();
-            listOImages.add(new ImageView(this));
+            listOImages.add(new ImageView(Game.this));
             listOImages.get(listOImages.size() - 1).setImageResource(R.drawable.piano);
-            listOImages.get(listOImages.size() - 1).setLayoutParams(new RelativeLayout.LayoutParams(100, 100));
+            listOImages.get(listOImages.size() - 1).setLayoutParams(new RelativeLayout.LayoutParams(200, 200));
             listOImages.get(listOImages.size() - 1).setX((int) (Math.random() * displayMetrics.widthPixels));
             listOImages.get(listOImages.size() - 1).setY(30);
-            linearLayout.addView(listOImages.get(listOImages.size() - 1), (int)(Math.random()*displayMetrics.widthPixels), 200);
+            linearLayout.addView(listOImages.get(listOImages.size() - 1), (int) (Math.random() * displayMetrics.widthPixels), 200);
             listOImages.get(listOImages.size() - 1).setVisibility(View.VISIBLE);
-        }
-
-
+        //}
 
         x++;
         System.out.println(x);
 
-        for(ImageView piano : listOImages){
-            piano.setY(50 + piano.getY());
-            if(piano.getY()>view.getLayoutParams().height){
+        /*(for (ImageView piano : listOImages) {
+            piano.setY(yDecrement + piano.getY());
+            if (piano.getY() > view.getLayoutParams().height) {
                 listOImages.remove(piano);
             }
-        }
+        }*/
         view.setOnTouchListener(this);
-        loop();
-
     }
+
+
 
 
     public boolean onTouch(View view, MotionEvent event) {
