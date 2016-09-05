@@ -28,6 +28,7 @@
         android:layout_below="@+id/title"
         android:src="@drawable/stickman"
         android:id="@+id/stickman"/>
+
     <Button
         android:layout_width="match_parent"
         android:layout_height="60dp"
