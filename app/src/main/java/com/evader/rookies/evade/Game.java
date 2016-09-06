@@ -33,6 +33,8 @@ public class Game extends Activity implements View.OnTouchListener, Runnable {
     ArrayList <ImageView> listOImages = new ArrayList<ImageView>();
     RelativeLayout relativeLayout;
     int y=0;
+    int pianoWidth, pianoHeight,stickmanWidth;
+    boolean gameOver;
 
 
     public void run(){
@@ -54,7 +56,9 @@ public class Game extends Activity implements View.OnTouchListener, Runnable {
             getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
             relativeLayout= (RelativeLayout) findViewById(R.id.gamerelativelayout);
             view.setOnTouchListener(this);
-
+            pianoWidth = 200;
+            pianoHeight = 200;
+            stickmanWidth = socguy.getWidth();
         }
 
         listOImages.add(pianoObstacle); //IMPORTANT: added preset imageview instead of creating a new imageview dynamically (as Aditya did before) --> CHANGE LATER!
@@ -151,14 +155,30 @@ public class Game extends Activity implements View.OnTouchListener, Runnable {
             System.out.println(listOImages.get(listOImages.size()-1).getX());
             for (ImageView piano : listOImages) {
                 piano.setY(piano.getY() + 20);
+                gameOver = checkForCollision(piano);
             }
-
-
-
+            /*if(gameOver) {
+                gameEnd();
+            }*/
 
 
     }
 
+    public boolean checkForCollision(ImageView piano) {
+        boolean collided=false;
+        if(socguy.getY() >= piano.getY()+pianoHeight){
+            if(piano.getX() <= socguy.getX()+stickmanWidth && piano.getX()+pianoWidth >= socguy.getX()) {
+                //collided = true;
+                System.out.println("COLLISION");
+                //gameEnd();
+            }
+        }
+        return collided;
+    }
+
+    public void gameEnd() {
+        startActivity(new Intent(this, Scores.class));
+    }
 
     public boolean onTouch(View view, MotionEvent event) {
         System.out.println(event.getRawX());
