@@ -90,9 +90,14 @@ public class Game extends Activity implements View.OnTouchListener, Runnable {
             //listOImages.get(listOImages.size() - 1).setVisibility(View.VISIBLE);
         //}
 
+<<<<<<< HEAD
         //x++;
         //System.out.println(x);
 
+=======
+        x++;
+        System.out.println(x);
+>>>>>>> da07d6aaee0d038e3685e76feda3872f43f19ec5
         /*(for (ImageView piano : listOImages) {
             piano.setY(yDecrement + piano.getY());
             if (piano.getY() > view.getLayoutParams().height) {
