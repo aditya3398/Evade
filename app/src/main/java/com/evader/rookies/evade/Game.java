@@ -6,20 +6,23 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
 import android.os.Looper;
+import android.os.SystemClock;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import java.lang.InterruptedException;
 
-public class Game extends Activity implements View.OnTouchListener {
+public class Game extends Activity implements View.OnTouchListener, Runnable {
     int x=0;
+    int whatever = 0;
     int yDecrement = 50;
     long newEnemyTime=3000;
-    ImageView socguy;
+    ImageView socguy, pianoObstacle;
     View view;
     long time;
     boolean firstTimeAround=true;
@@ -27,34 +30,68 @@ public class Game extends Activity implements View.OnTouchListener {
     ArrayList <ImageView> listOImages = new ArrayList<ImageView>();
     RelativeLayout linearLayout;
 
+
+    public void run(){
+        android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_BACKGROUND);
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_game);
         super.onCreate(savedInstanceState);
         if (firstTimeAround == true) {
             socguy = (ImageView) findViewById(R.id.imageView);
+            pianoObstacle = (ImageView) findViewById(R.id.obstacle);
             view = findViewById(R.id.clickview);
             time = System.currentTimeMillis();
             firstTimeAround = false;
             displayMetrics = new DisplayMetrics();
             linearLayout= (RelativeLayout) findViewById(R.id.gamerelativelayout);
+            view.setOnTouchListener(this);
 
         }
 
-        long currentTime = System.currentTimeMillis();
+        listOImages.add(pianoObstacle); //IMPORTANT: added preset imageview instead of creating a new imageview dynamically (as Aditya did before) --> CHANGE LATER!
+        listOImages.get(listOImages.size() - 1).setImageResource(R.drawable.piano);
+
+        //long currentTime = System.currentTimeMillis();
         //if (currentTime - time == newEnemyTime) {
-            time = System.currentTimeMillis();
-            listOImages.add(new ImageView(Game.this));
-            listOImages.get(listOImages.size() - 1).setImageResource(R.drawable.piano);
-            listOImages.get(listOImages.size() - 1).setLayoutParams(new RelativeLayout.LayoutParams(200, 200));
-            listOImages.get(listOImages.size() - 1).setX((int) (Math.random() * displayMetrics.widthPixels));
-            listOImages.get(listOImages.size() - 1).setY(30);
-            linearLayout.addView(listOImages.get(listOImages.size() - 1), (int) (Math.random() * displayMetrics.widthPixels), 200);
-            listOImages.get(listOImages.size() - 1).setVisibility(View.VISIBLE);
+
+        Thread t = new Thread(new Runnable() {
+            public void run() {
+                pianoObstacle.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        letItRain();
+                    }
+                });
+            }
+        });
+
+        t.start();
+
+//        while(whatever<1000){
+//            time = System.currentTimeMillis();
+//            listOImages.add(pianoObstacle);
+//            listOImages.get(listOImages.size() - 1).setImageResource(R.drawable.piano);
+//            //listOImages.get(listOImages.size() - 1).setLayoutParams(new RelativeLayout.LayoutParams(200, 200));
+//            //listOImages.get(listOImages.size() - 1).setX((int) (Math.random() * displayMetrics.widthPixels));
+//            //pianoObstacle.setX((float)(Math.random()*displayMetrics.widthPixels)); // DOES NOT WORK!!
+//
+//            listOImages.get(listOImages.size() - 1).setX((float) (Math.random() * 400)); //Change This Hardcoding value*****
+//            listOImages.get(listOImages.size() - 1).setY(20); //max value is 700
+//
+//            letItRain();
+//            whatever++;
+//        }
+            //listOImages.get(listOImages.size() - 1).setY(30);
+            //linearLayout.addView(listOImages.get(listOImages.size() - 1), (int) (Math.random() * displayMetrics.widthPixels), 200);
+            //listOImages.get(listOImages.size() - 1).setVisibility(View.VISIBLE);
         //}
 
-        x++;
-        System.out.println(x);
+        //x++;
+        //System.out.println(x);
 
         /*(for (ImageView piano : listOImages) {
             piano.setY(yDecrement + piano.getY());
@@ -62,10 +99,36 @@ public class Game extends Activity implements View.OnTouchListener {
                 listOImages.remove(piano);
             }
         }*/
-        view.setOnTouchListener(this);
+
     }
 
+   public void letItRain()
+    {
 
+
+
+        while(whatever<1000){
+
+
+            System.out.println("hello!"); //NOT PRINTING!
+            //listOImages.get(listOImages.size() - 1).setLayoutParams(new RelativeLayout.LayoutParams(200, 200));
+            //listOImages.get(listOImages.size() - 1).setX((int) (Math.random() * displayMetrics.widthPixels));
+            //pianoObstacle.setX((float)(Math.random()*displayMetrics.widthPixels)); // DOES NOT WORK!!
+
+            listOImages.get(listOImages.size() - 1).setX((float) (Math.random() * 400)); //Change This Hardcoding value*****
+            listOImages.get(listOImages.size() - 1).setY(20); //max value is 700
+
+            float y = 20;
+            while(y <700) //Hardcoded Values! Change LATER!
+            {
+                listOImages.get(listOImages.size() - 1).setY(y);
+
+                y =y++;
+            }
+            whatever++;
+        }
+
+    }
 
 
     public boolean onTouch(View view, MotionEvent event) {
@@ -78,6 +141,9 @@ public class Game extends Activity implements View.OnTouchListener {
                 socguy.setX(socguy.getX() - 50.0f);
             }
         }
+
+
+
         return true;
     }
 

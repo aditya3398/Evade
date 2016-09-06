@@ -38,7 +38,8 @@
         android:backgroundTint="@color/colorPrimary"
         android:textColor="@color/white"
         android:onClick="playGame"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"/>
 
 
 </RelativeLayout>
