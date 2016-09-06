@@ -55,7 +55,6 @@ public class Game extends Activity implements View.OnTouchListener {
 
         x++;
         System.out.println(x);
-
         /*(for (ImageView piano : listOImages) {
             piano.setY(yDecrement + piano.getY());
             if (piano.getY() > view.getLayoutParams().height) {
