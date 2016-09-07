@@ -139,7 +139,7 @@ public class Game extends Activity implements View.OnTouchListener, Runnable {
              //max value is 700
 
             long currentTime = System.currentTimeMillis();
-            if (currentTime-time>=(long)10000){
+            if (currentTime-time>=(long)4000){
                 time =System.currentTimeMillis();
                 listOImages.add(new ImageView(this));
                 listOImages.get(listOImages.size() - 1).setImageResource(R.drawable.piano);
@@ -154,31 +154,43 @@ public class Game extends Activity implements View.OnTouchListener, Runnable {
             }
             System.out.println(listOImages.get(listOImages.size()-1).getX());
             for (ImageView piano : listOImages) {
-                piano.setY(piano.getY() + 20);
-                gameOver = checkForCollision(piano);
+                piano.setY(piano.getY() + yDecrement);
+                if(hasCollided(piano)==true){
+                    gameOver=true;
+                }
             }
-            /*if(gameOver) {
-                gameEnd();
-            }*/
+                if(gameOver) {
+                    //gameEnd();
+                }
+
 
 
     }
 
-    public boolean checkForCollision(ImageView piano) {
+    public boolean hasCollided(ImageView piano) {
         boolean collided=false;
-        if(socguy.getY() >= piano.getY()+pianoHeight){
-            if(piano.getX() <= socguy.getX()+stickmanWidth && piano.getX()+pianoWidth >= socguy.getX()) {
-                //collided = true;
+        int socguyLocation []= new int [2];
+        socguy.getLocationOnScreen(socguyLocation);
+        int topright=socguyLocation[0]+stickmanWidth;
+        int pianoLocation [] = new int [2];
+        piano.getLocationOnScreen(pianoLocation);
+        if(socguyLocation[1] <= pianoLocation[1]+pianoHeight){
+            if(pianoLocation[0] <= topright && pianoLocation[0]+pianoWidth >= socguyLocation[0]) {
+                collided = true;
                 System.out.println("COLLISION");
+                System.out.println("Socguy X: " + socguyLocation[0]);
+                System.out.println("Socguy y: " + socguyLocation[1]);
+                System.out.println("piano X: " + pianoLocation[0]);
+                System.out.println("piano Y: " + pianoLocation[1]);
                 //gameEnd();
             }
         }
         return collided;
     }
 
-    public void gameEnd() {
-        startActivity(new Intent(this, Scores.class));
-    }
+    //public void gameEnd() {
+    //    startActivity(new Intent(this, Scores.class));
+    //}
 
     public boolean onTouch(View view, MotionEvent event) {
         System.out.println(event.getRawX());
