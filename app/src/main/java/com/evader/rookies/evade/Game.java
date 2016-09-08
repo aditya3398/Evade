@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.lang.InterruptedException;
 import java.util.Collections;
@@ -55,20 +56,22 @@ public class Game extends Activity implements View.OnTouchListener, Runnable {
 
         setContentView(R.layout.activity_game);
         super.onCreate(savedInstanceState);
-        savedInstanceState = getIntent().getExtras();
-        difficulty = savedInstanceState.getString("DifficultyLevel");
+        Bundle b = getIntent().getExtras();
+        difficulty = b.getString("DifficultyLevel");
 
-        if (difficulty == "Easy"){
-            yIncrement = yIncrement - 20;
+        if (difficulty.equals("Easy")){
+            yIncrement = yIncrement - 30;
         }
-        else if (difficulty == "Medium"){
+        else if (difficulty.equals("Medium")){
             yIncrement = 50;
         }
-        else if(difficulty == "Hard"){
-            yIncrement = yIncrement + 20;
+        else if(difficulty.equals("Hard")){
+            yIncrement = yIncrement + 30;
         }
-        else
-            yIncrement = 0;
+        else{
+            Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
+        }
+
 
 
 
