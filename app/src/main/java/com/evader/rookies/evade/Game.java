@@ -23,6 +23,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class Game extends Activity implements View.OnTouchListener, Runnable {
+
     int x=0;
     int yIncrement = 50;
     long newEnemyTime=1000;
@@ -41,6 +42,7 @@ public class Game extends Activity implements View.OnTouchListener, Runnable {
     boolean gameOver;
     int score=0;
     TextView scoreView;
+    String difficulty;
 
 
     public void run(){ //ensures additional threads don't conflict with main UI thread
@@ -53,6 +55,22 @@ public class Game extends Activity implements View.OnTouchListener, Runnable {
 
         setContentView(R.layout.activity_game);
         super.onCreate(savedInstanceState);
+        savedInstanceState = getIntent().getExtras();
+        difficulty = savedInstanceState.getString("DifficultyLevel");
+
+        if (difficulty == "Easy"){
+            yIncrement = yIncrement - 20;
+        }
+        else if (difficulty == "Medium"){
+            yIncrement = 50;
+        }
+        else if(difficulty == "Hard"){
+            yIncrement = yIncrement + 20;
+        }
+        else
+            yIncrement = 0;
+
+
 
 
         socguy = (ImageView) findViewById(R.id.imageView);
