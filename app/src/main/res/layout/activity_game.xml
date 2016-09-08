@@ -26,6 +26,15 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:id="@+id/scoreView"
+        android:text="Score:"
+        android:textColor="#F7F"
+        />
+
     <ImageView
         android:layout_width="30dp"
         android:layout_centerHorizontal="true"
@@ -35,12 +44,13 @@
         android:layout_alignParentBottom="true"
         />
 
-    <ImageView
-        android:layout_width="200px"
-        android:layout_height="200px"
-        android:id="@+id/obstacle"
-        android:layout_alignParentTop="true"
-        />
+
+    <!--<ImageView-->
+        <!--android:layout_width="200px"-->
+        <!--android:layout_height="200px"-->
+        <!--android:id="@+id/obstacle"-->
+        <!--android:layout_alignParentTop="true"-->
+        <!--/>-->
 
 
 
