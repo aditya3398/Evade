@@ -84,7 +84,6 @@ public class Game extends Activity implements View.OnTouchListener, Runnable {
         displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         relativeLayout= (RelativeLayout) findViewById(R.id.gamerelativelayout);
-        view.setOnTouchListener(this);
         stickmanWidth = socguy.getWidth();
         pianoWidth = displayMetrics.widthPixels/10;
         pianoHeight = displayMetrics.heightPixels/10;
@@ -109,12 +108,14 @@ public class Game extends Activity implements View.OnTouchListener, Runnable {
                             @Override
                             public void run() {
                                 letItRain();
+                                view.setOnTouchListener(Game.this);
                             }
                         });
                     }
                 }).start();
+
                 try {
-                    Thread.sleep(100);
+                    Thread.sleep(300);
                 }
                 catch (InterruptedException e){
                     System.out.println(e);
@@ -206,10 +207,10 @@ public class Game extends Activity implements View.OnTouchListener, Runnable {
             if(gameOver) {
                 //gameEnd();
             }
-            incrementScore(listOImages);
-            String scoreText = "Score:" + String.valueOf(score);
-            scoreView.setText(scoreText);
-            scoreView.setVisibility(View.VISIBLE);
+       incrementScore(listOImages);
+       String scoreText = "Score:" + String.valueOf(score);
+       scoreView.setText(scoreText);
+       scoreView.setVisibility(View.VISIBLE);
     }
 
     public boolean hasCollided(ImageView piano) {
@@ -219,7 +220,7 @@ public class Game extends Activity implements View.OnTouchListener, Runnable {
         int topRightSocguyCorner=socguyLocation[0]+stickmanWidth;
         int pianoLocation [] = new int [2];
         piano.getLocationOnScreen(pianoLocation);
-        if(socguyLocation[1] <= pianoLocation[1]+pianoHeight){
+        if(socguyLocation[1] <= pianoLocation[1]+pianoHeight && displayMetrics.heightPixels>=pianoLocation[1]){
             if(pianoLocation[0] <= topRightSocguyCorner && pianoLocation[0]+pianoWidth >= socguyLocation[0]) {
                 collided = true;
                 System.out.println("COLLISION");
@@ -227,6 +228,8 @@ public class Game extends Activity implements View.OnTouchListener, Runnable {
                 System.out.println("Socguy y: " + socguyLocation[1]);
                 System.out.println("piano X: " + pianoLocation[0]);
                 System.out.println("piano Y: " + pianoLocation[1]);
+                Toast t= Toast.makeText(this,"Collision" ,Toast.LENGTH_SHORT);
+                t.show();
                 //gameEnd();
             }
         }
@@ -236,6 +239,7 @@ public class Game extends Activity implements View.OnTouchListener, Runnable {
     public void incrementScore(ArrayList<Piano> pianoList){
         for (Piano piano : pianoList){
             if(piano.getAlreadySetOffScreen()==false && piano.isOffScreen()==true){
+                System.out.println(piano);
                 score++;
                 piano.setAlreadySetOffScreen(true);
             }
@@ -245,6 +249,7 @@ public class Game extends Activity implements View.OnTouchListener, Runnable {
     //public void gameEnd() {
     //    startActivity(new Intent(this, Scores.class));
     //}
+
 
     public boolean onTouch(View view, MotionEvent event) {
         System.out.println(event.getRawX());
@@ -258,7 +263,6 @@ public class Game extends Activity implements View.OnTouchListener, Runnable {
         }
         return true;
     }
-
 
 
 }
