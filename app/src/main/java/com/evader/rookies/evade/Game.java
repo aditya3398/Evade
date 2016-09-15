@@ -81,6 +81,7 @@ public class Game extends Activity implements View.OnTouchListener, Runnable {
         view = findViewById(R.id.clickview);
         scoreView = (TextView)(findViewById(R.id.scoreView));
         time = System.currentTimeMillis();
+        view.setOnTouchListener(this);
         firstTimeAround = false;
         displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
@@ -109,7 +110,7 @@ public class Game extends Activity implements View.OnTouchListener, Runnable {
                             @Override
                             public void run() {
                                 letItRain();
-                                view.setOnTouchListener(Game.this);
+
                             }
                         });
                     }
@@ -196,13 +197,13 @@ public class Game extends Activity implements View.OnTouchListener, Runnable {
                 listOImages.get(listOImages.size() - 1).setX((float) (Math.random() * displayMetrics.widthPixels));
             }
 
-            for (Piano piano : listOImages) {
-                piano.setY(piano.getY() + yIncrement);
-                if (hasCollided(piano)==true){
+            for (int i =  listOImages.size()-1; i>-1; i--) {
+                listOImages.get(i).setY(listOImages.get(i).getY() + yIncrement);
+                if (hasCollided(listOImages.get(i))==true){
                     gameOver=true;
                 }
-                if(piano.getY()>displayMetrics.heightPixels){
-                    piano.setOffScreen(true);
+                if(listOImages.get(i).getY()>displayMetrics.heightPixels){
+                    listOImages.get(i).setOffScreen(true);
                 }
             }
             if(gameOver) {
@@ -260,9 +261,9 @@ public class Game extends Activity implements View.OnTouchListener, Runnable {
         System.out.println(event.getRawX());
         System.out.println("Socguy: " + socguy.getX());
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            if (event.getRawX() >= socguy.getX()) {
+            if (event.getRawX() >= socguy.getX() && socguy.getX() +50.0f < displayMetrics.widthPixels) {
                 socguy.setX(socguy.getX() + 50.0f);
-            } else {
+            } else if (event.getRawX() <= socguy.getX() && socguy.getX() -50.0f > 0){
                 socguy.setX(socguy.getX() - 50.0f);
             }
         }
