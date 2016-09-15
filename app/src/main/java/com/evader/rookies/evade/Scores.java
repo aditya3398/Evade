@@ -7,6 +7,7 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -41,7 +42,8 @@ public class Scores extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scores);
-        Bundle b = getIntent().getExtras();
+        //Bundle b = getIntent().getExtras();
+        //score = b.getInt("score");
         storedScores = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = storedScores.edit();
         object = new StoreScores(scores, this);
@@ -92,7 +94,7 @@ public class Scores extends AppCompatActivity {
         return added;
     }
     public void playGame(View view) {
-        Intent intent = new Intent(this,Game.class);
+        Intent intent = new Intent(this,MainActivity.class);
         startActivity(intent);
     }
     private void insertionSort() {
@@ -142,10 +144,11 @@ public class Scores extends AppCompatActivity {
         TableLayout table = (TableLayout)findViewById(R.id.scoreTable);
         for(Integer x:scores) {
             TableRow row = new TableRow(this);
-            TableRow.LayoutParams params = new TableRow.LayoutParams(1);
+            TableRow.LayoutParams params = new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT);
             row.setLayoutParams(params);
             TextView text = new TextView(this);
             text.setText((x.toString()));
+            table.setVisibility(View.VISIBLE);
             row.setVisibility(View.VISIBLE);
             text.setVisibility(View.VISIBLE);
         }

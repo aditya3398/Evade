@@ -44,7 +44,8 @@ public class Game extends Activity implements View.OnTouchListener, Runnable {
     int score=0;
     TextView scoreView;
     String difficulty;
-
+    Timer timer;
+    //public Bundle bundle = new Bundle();
 
     public void run(){ //ensures additional threads don't conflict with main UI thread
         android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_BACKGROUND);
@@ -60,13 +61,13 @@ public class Game extends Activity implements View.OnTouchListener, Runnable {
         difficulty = b.getString("DifficultyLevel");
 
         if (difficulty.equals("Easy")){
-            yIncrement = yIncrement - 30;
+            yIncrement = yIncrement + 30;
         }
         else if (difficulty.equals("Medium")){
             yIncrement = 50;
         }
         else if(difficulty.equals("Hard")){
-            yIncrement = yIncrement + 30;
+            yIncrement = yIncrement - 30;
         }
         else{
             Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
@@ -98,7 +99,7 @@ public class Game extends Activity implements View.OnTouchListener, Runnable {
         //if (currentTime - time == newEnemyTime) {
 
 
-        Timer timer = new Timer();
+        timer = new Timer();
         TimerTask timerTask= new TimerTask() {
             @Override
             public void run() {
@@ -122,7 +123,7 @@ public class Game extends Activity implements View.OnTouchListener, Runnable {
                 }
             }
         };
-        timer.schedule(timerTask, 1000, 100);
+        timer.schedule(timerTask, 100, 100);
 
 //        while(whatever<1000){
 
@@ -205,7 +206,7 @@ public class Game extends Activity implements View.OnTouchListener, Runnable {
                 }
             }
             if(gameOver) {
-                //gameEnd();
+                gameEnd();
             }
        incrementScore(listOImages);
        String scoreText = "Score:" + String.valueOf(score);
@@ -228,9 +229,9 @@ public class Game extends Activity implements View.OnTouchListener, Runnable {
                 System.out.println("Socguy y: " + socguyLocation[1]);
                 System.out.println("piano X: " + pianoLocation[0]);
                 System.out.println("piano Y: " + pianoLocation[1]);
-                Toast t= Toast.makeText(this,"Collision" ,Toast.LENGTH_SHORT);
+                Toast t= Toast.makeText(this,"Ouch!" ,Toast.LENGTH_SHORT);
                 t.show();
-                //gameEnd();
+                gameEnd();
             }
         }
         return collided;
@@ -238,7 +239,7 @@ public class Game extends Activity implements View.OnTouchListener, Runnable {
 
     public void incrementScore(ArrayList<Piano> pianoList){
         for (Piano piano : pianoList){
-            if(piano.getAlreadySetOffScreen()==false && piano.isOffScreen()==true){
+            if(!(piano.getAlreadySetOffScreen()) && piano.isOffScreen()){
                 System.out.println(piano);
                 score++;
                 piano.setAlreadySetOffScreen(true);
@@ -246,9 +247,13 @@ public class Game extends Activity implements View.OnTouchListener, Runnable {
         }
     }
 
-    //public void gameEnd() {
-    //    startActivity(new Intent(this, Scores.class));
-    //}
+    public void gameEnd() {
+        timer.cancel();
+        Intent intent = new Intent(this, Scores.class);
+        intent.putExtra("currScore", score);
+        //this.bundle.putInt("score", score);
+        startActivity(intent);
+    }
 
 
     public boolean onTouch(View view, MotionEvent event) {
