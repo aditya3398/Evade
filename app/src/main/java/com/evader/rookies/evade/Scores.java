@@ -3,6 +3,7 @@ package com.evader.rookies.evade;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -30,7 +31,7 @@ public class Scores extends AppCompatActivity {
     ArrayList<Integer> scores = new ArrayList<>();
     ArrayList<Integer> tempScores = new ArrayList<Integer>();
     //ArrayList<String> names = new ArrayList<>();
-    private int NUM_TOP_SCORES = 10;
+    private int NUM_TOP_SCORES = 3;
     //String name = "someone"; //need to ask for/pass
     int score; //= 2324; //need to pass through
     SharedPreferences storedScores; //storedNames; //storedDifficulty;
@@ -64,6 +65,9 @@ public class Scores extends AppCompatActivity {
 
         boolean resortCall = addScore(score); //adds score to array and if added, sorts list again and reforms the sharedpreference file
         if(resortCall)  {
+            Thread sc = new Thread();
+
+            System.out.print("RE-SORT CALL WORKS");
             //arrayListToFile(scores);
             insertionSort();
             //mergeSort(0, NUM_TOP_SCORES-1);
@@ -140,17 +144,21 @@ public class Scores extends AppCompatActivity {
         }
     }
     public void fillTableRows() {
-
         TableLayout table = (TableLayout)findViewById(R.id.scoreTable);
         for(Integer x:scores) {
+            System.out.println("Score exists!: " + x);
             TableRow row = new TableRow(this);
-            TableRow.LayoutParams params = new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT);
+            TableRow.LayoutParams params = new TableRow.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             row.setLayoutParams(params);
             TextView text = new TextView(this);
             text.setText((x.toString()));
+            text.setTextSize(20);
+            text.setTextColor(Color.WHITE);
             table.setVisibility(View.VISIBLE);
             row.setVisibility(View.VISIBLE);
             text.setVisibility(View.VISIBLE);
+            table.addView(row);
+            row.addView(text);
         }
     }
     /*private File scoreToFile(ScoreRow content) {
