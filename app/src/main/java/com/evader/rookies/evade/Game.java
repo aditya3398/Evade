@@ -25,6 +25,10 @@ import java.util.TimerTask;
 
 public class Game extends Activity implements View.OnTouchListener, Runnable {
 
+    //Error recording commits as mine (not linked to my account)
+    //Changes can be seen in the previous commit history under the name 'Shukan Shah'
+    //Modified thread loop, incrementation of speed based on difficulty saved state
+
     int x=0;
     int yIncrement = 50;
     long newEnemyTime=1000;

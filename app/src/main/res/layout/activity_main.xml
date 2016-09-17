@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--'
+
+    Error recording commits for this file as mine (not linked to my account)
+    Changes can be seen in the previous commit history under the name 'Shukan Shah'
+    Added Change Difficulty Button, linked to method in main activity.java
+
+    '-->
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"

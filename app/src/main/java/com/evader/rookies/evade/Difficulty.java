@@ -14,6 +14,10 @@ public class Difficulty extends Activity {
 
     String difficulty = "";
 
+    //Error recording commits for this file as mine (not linked to my account)
+    //Changes can be seen in the previous commit history under the name 'Shukan Shah'
+    //Created/Modified the file Difficulty.java
+
 
 
 

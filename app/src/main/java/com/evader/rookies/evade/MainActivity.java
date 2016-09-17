@@ -12,6 +12,9 @@ public class MainActivity extends AppCompatActivity {
 
     String difficulty = "";
 
+    //Error recording commits for this file as mine (not linked to my account)
+    //Changes can be seen in the previous commit history under the name 'Shukan Shah'
+    //Modified methods, implemented shared preferences, retrieved data from previous activities
 
 
 
