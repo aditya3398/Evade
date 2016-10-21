@@ -29,7 +29,7 @@ public class StoreScores extends Activity {
 
     }
 
-    public void storeScores(List scores) { //arraylist in JSON string
+    public SharedPreferences storeScores(List scores) { //arraylist in JSON string
         //creates sharedpreferences object (which holds primitive data types) and its editor
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = prefs.edit();
@@ -39,7 +39,7 @@ public class StoreScores extends Activity {
         //assigns json string to sharedpreferences variable
         editor.putString(SCORES_STRING, scoreJson);
         editor.apply();
-        //return prefs;
+        return prefs;
     }
     public ArrayList<Integer> jsonToArrayList() { //json to arraylist
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -60,7 +60,7 @@ public class StoreScores extends Activity {
         }
         return (ArrayList<Integer>) scores;
     }
-    public void addScore(int score) {
+    /*public void addScore(int score) {
         ArrayList<Integer> scores = jsonToArrayList();
         if(scores == null) {
             scores = new ArrayList<Integer>();
@@ -75,5 +75,5 @@ public class StoreScores extends Activity {
             scores.remove(score);
             storeScores(scores);
         }
-    }
+    }*/
 }

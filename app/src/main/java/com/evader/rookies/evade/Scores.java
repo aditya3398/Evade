@@ -55,7 +55,7 @@ public class Scores extends AppCompatActivity {
         //get score from game
         Intent intent = getIntent();
         score = intent.getIntExtra("currScore", 0);
-        object.storeScores(scores);
+        storedScores = object.storeScores(scores);
         //retreive previous scores
         //if (!(b.getString(SCORES).equals(null))) {
             scores = object.jsonToArrayList();
@@ -73,7 +73,7 @@ public class Scores extends AppCompatActivity {
             //mergeSort(0, NUM_TOP_SCORES-1);
             fillTableRows(); //adds tablerows and textviews
             //add this arraylist to the sharedprefs to store it
-            object.storeScores(scores);
+            storedScores = object.storeScores(scores);
         }
         editor.apply();
     }
@@ -106,7 +106,7 @@ public class Scores extends AppCompatActivity {
         for (int j = 0; j < n; j++) {
             int key = scores.get(j);
             int i = j-1;
-            while ( (i > -1) && ( scores.get(i) > key ) ) {
+            while ( (i > -1) && ( scores.get(i) < key ) ) {
                 scores.set(i+1,scores.get(i));
                 i--;
             }
